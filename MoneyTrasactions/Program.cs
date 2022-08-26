@@ -29,6 +29,12 @@ depositSep.Print();
 depositAug.LastDep();
 depositSep.LastDep();
 
+Console.WriteLine(depositAug.SumTrans(depAug));
+depositAug.DebtTotal(account);
+
+Console.WriteLine(depositAug.GetTotal());
+
+
 
 namespace Finance
 {
@@ -68,7 +74,8 @@ namespace Finance
     {
         string[,] trans;
         int length;
-        public Transactions(string[] names, double[]deposit)
+        double total;
+        public Transactions(string[] names, double[] deposit)
         {
             trans = new string[2, names.Length];
             for (int i = 0; i < names.Length; i++)
@@ -77,10 +84,17 @@ namespace Finance
                 trans[1, i] = deposit[i].ToString();
             }
             length = names.Length;
+            this.total = 0.0;
+            total = SumTrans(deposit);
         }
-        public void AddTrans(string[] names, string[] deposit)
+        public double SumTrans(params double[] deposit)
         {
-        
+            double sum = 0.0;
+            for(int i = 0; i < deposit.Length; i++)
+            {
+                sum += deposit[i];
+            }
+            return sum;
         }
         public void Print()
         {
@@ -97,5 +111,12 @@ namespace Finance
             return last;
         }
         public int GetLen() { return length; }
+
+        public double GetTotal() { return total; }  
+
+        public void DebtTotal(Money obj)
+        {
+            total -= obj.GetDlr();
+        }
     }
 }
